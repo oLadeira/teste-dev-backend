@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
 
@@ -22,13 +23,13 @@ public class Patient {
 
     private String name;
 
-    private Date birthDate;
+    private LocalDate birthDate;
 
     private String gender;
 
-    private Date creationDate;
+    private LocalDate creationDate;
 
-    private Date updateDate;
+    private LocalDate updateDate;
 
     @OneToMany(mappedBy = "patient")
     private List<HealthProblem> healthProblems;
