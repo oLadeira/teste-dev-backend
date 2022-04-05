@@ -7,6 +7,8 @@ import br.com.lucasladeira.olisaude.entities.Patient;
 import br.com.lucasladeira.olisaude.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -26,13 +28,26 @@ public class PatientServiceImpl implements PatientService{
         patient.setId(null);
         patient.setCreationDate(LocalDate.now());
         patient.setUpdateDate(LocalDate.now());
+        log.info("Creating new Patient");
         return patientRepository.save(patient);
     }
 
     @Override
-    public List<Patient> getPatients() {
+    public Page<Patient> getPatients(Pageable pageable) {
+        log.info("Listing all Patients");
+        return patientRepository.findAll(pageable);
+    }
+
+    @Override
+    public Patient getPatientById(Long id) {
         return null;
     }
+
+    @Override
+    public Patient updatePatient(Long id, Patient patient) {
+        return null;
+    }
+
 
     public Patient fromDTO(PatientDto patientDto){
         Patient patient = new Patient();
