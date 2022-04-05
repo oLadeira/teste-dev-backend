@@ -1,21 +1,18 @@
 package br.com.lucasladeira.olisaude.services;
 
 import br.com.lucasladeira.olisaude.dto.HealthProblemDto;
-import br.com.lucasladeira.olisaude.dto.PatientDto;
+import br.com.lucasladeira.olisaude.dto.NewPatientDto;
+import br.com.lucasladeira.olisaude.dto.UpdatePatientDto;
 import br.com.lucasladeira.olisaude.entities.HealthProblem;
 import br.com.lucasladeira.olisaude.entities.Patient;
 import br.com.lucasladeira.olisaude.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Service
 @Slf4j
@@ -47,12 +44,19 @@ public class PatientServiceImpl implements PatientService{
     }
 
     @Override
-    public Patient updatePatient(Long id, Patient patient) {
-        return null;
+    public Patient updatePatient(Long id, UpdatePatientDto patient) {
+        Patient dbPatient = patientRepository.findById(id)
+                .orElseThrow();
+        dbPatient.setName(patient.getName());
+        dbPatient.setGender(patient.getGender());
+        dbPatient.setBirthDate(patient.getBirthDate());
+
+        dbPatient.setUpdateDate(LocalDate.now());
+        return patientRepository.save(dbPatient);
     }
 
 
-    public Patient fromDTO(PatientDto patientDto){
+    public Patient fromDTO(NewPatientDto patientDto){
         Patient patient = new Patient();
         patient.setName(patientDto.getName());
         patient.setBirthDate(patientDto.getBirthDate());

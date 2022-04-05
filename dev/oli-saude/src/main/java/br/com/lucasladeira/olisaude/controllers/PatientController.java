@@ -1,6 +1,7 @@
 package br.com.lucasladeira.olisaude.controllers;
 
-import br.com.lucasladeira.olisaude.dto.PatientDto;
+import br.com.lucasladeira.olisaude.dto.NewPatientDto;
+import br.com.lucasladeira.olisaude.dto.UpdatePatientDto;
 import br.com.lucasladeira.olisaude.entities.Patient;
 import br.com.lucasladeira.olisaude.services.PatientServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,7 @@ public class PatientController {
 
 
     @PostMapping
-    public ResponseEntity<Patient> createPatient(@RequestBody PatientDto patientDto){
+    public ResponseEntity<Patient> createPatient(@RequestBody NewPatientDto patientDto){
         Patient createdPatient = patientService.createPatient(patientService.fromDTO(patientDto));
         return ResponseEntity.status(HttpStatus.CREATED).body(createdPatient);
     }
@@ -32,5 +33,10 @@ public class PatientController {
     @GetMapping("/{id}")
     public ResponseEntity<Patient> getPatientById(@PathVariable Long id){
         return ResponseEntity.status(HttpStatus.OK).body(patientService.getPatientById(id));
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Patient> updatePatient (@PathVariable Long id, @RequestBody UpdatePatientDto patient){
+        return ResponseEntity.status(HttpStatus.OK).body(patientService.updatePatient(id, patient));
     }
 }
