@@ -6,11 +6,13 @@ import br.com.lucasladeira.olisaude.entities.HealthProblem;
 import br.com.lucasladeira.olisaude.entities.Patient;
 import br.com.lucasladeira.olisaude.repositories.PatientRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,7 +42,8 @@ public class PatientServiceImpl implements PatientService{
 
     @Override
     public Patient getPatientById(Long id) {
-        return null;
+        return patientRepository.findById(id)
+                .orElseThrow();
     }
 
     @Override
