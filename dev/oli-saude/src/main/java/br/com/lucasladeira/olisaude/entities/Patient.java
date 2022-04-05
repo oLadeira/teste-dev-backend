@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -31,6 +32,6 @@ public class Patient {
 
     private LocalDate updateDate;
 
-    @OneToMany(mappedBy = "patient")
-    private List<HealthProblem> healthProblems;
+    @OneToMany(mappedBy = "patient", cascade = CascadeType.PERSIST)
+    private List<HealthProblem> healthProblems = new ArrayList<>();
 }

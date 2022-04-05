@@ -1,5 +1,6 @@
 package br.com.lucasladeira.olisaude.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,5 +24,6 @@ public class HealthProblem {
     private Integer degree;
 
     @ManyToOne
+    @JsonIgnore
     private Patient patient;
 }
