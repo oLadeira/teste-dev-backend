@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.*;
+import java.util.logging.Logger;
 import java.util.stream.Collectors;
 
 @Service
@@ -82,11 +83,17 @@ public class PatientServiceImpl implements PatientService{
 
         //list used to sort the set by value
         List<Map.Entry<Patient, Double>> aux = new ArrayList<>(patientsAndScore.entrySet());
+
+        //sorting the list by map value
         aux.sort(Map.Entry.comparingByValue());
+
+        //reversing the order
         Collections.reverse(aux);
+
+        //adding all map keys (Patients) in higherRiskPatients List
         aux.forEach(map -> {
             higherRiskPatients.add(map.getKey());
-            System.out.println(map.getKey());
+            log.info(map.getKey().toString());
         });
 
         //returning the list with a limit of 10 patients
@@ -111,6 +118,4 @@ public class PatientServiceImpl implements PatientService{
         }
         return patient;
     }
-
-
 }

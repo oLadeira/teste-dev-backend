@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Max;
+import javax.validation.constraints.Min;
 
 @Getter
 @Setter
@@ -21,7 +23,9 @@ public class HealthProblem {
 
     private String name;
 
-    private Integer degree;
+    @Max(value = 2)
+    @Min(value = 1)
+    private int degree;
 
     @ManyToOne
     @JsonIgnore
