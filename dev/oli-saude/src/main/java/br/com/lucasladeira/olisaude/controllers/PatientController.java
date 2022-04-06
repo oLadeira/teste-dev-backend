@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/patients")
 public class PatientController {
@@ -39,4 +41,11 @@ public class PatientController {
     public ResponseEntity<Patient> updatePatient (@PathVariable Long id, @RequestBody UpdatePatientDto patient){
         return ResponseEntity.status(HttpStatus.OK).body(patientService.updatePatient(id, patient));
     }
+
+    //Higher Risk Patients endpoint
+    @GetMapping("/higherRiskPatients")
+    public ResponseEntity<List<Patient>> getHigherRiskPatients(){
+        return ResponseEntity.status(HttpStatus.OK).body(patientService.getHigherRiskPatients());
+    }
+
 }

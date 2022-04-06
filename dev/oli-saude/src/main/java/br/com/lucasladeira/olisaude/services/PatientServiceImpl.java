@@ -13,6 +13,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -55,6 +57,42 @@ public class PatientServiceImpl implements PatientService{
         return patientRepository.save(dbPatient);
     }
 
+    @Override
+    public List<Patient> getHigherRiskPatients(){
+
+        //listing all patients
+        List<Patient> allPatients = patientRepository.findAll();
+
+        Map<Patient, Double> patientsAndScore = new HashMap<>();
+        List<Patient> higherRiskPatients = new ArrayList<>();
+
+        for (Patient patient : allPatients){
+            var score = 0.0;
+            var sd = 0.0;
+            for (HealthProblem healthProblem : patient.getHealthProblems()){
+                //calculating the sum of the degrees
+                sd += healthProblem.getDegree();
+            }
+            //calculating the score
+            score = (1 / (1 + Math.E - (-2.8 + sd))) * 100;
+
+            //puting patient and score in a map, where patient is the key and score is the value
+            patientsAndScore.put(patient, score);
+        }
+
+        //list used to sort the set by value
+        List<Map.Entry<Patient, Double>> aux = new ArrayList<>(patientsAndScore.entrySet());
+        aux.sort(Map.Entry.comparingByValue());
+        Collections.reverse(aux);
+        aux.forEach(map -> {
+            higherRiskPatients.add(map.getKey());
+            System.out.println(map.getKey());
+        });
+
+        //returning the list with a limit of 10 patients
+        return higherRiskPatients.stream().limit(10).collect(Collectors.toList());
+    }
+
 
     public Patient fromDTO(NewPatientDto patientDto){
         Patient patient = new Patient();
@@ -71,7 +109,6 @@ public class PatientServiceImpl implements PatientService{
                 patient.getHealthProblems().add(healthProblem);
             }
         }
-
         return patient;
     }
 
