@@ -2,6 +2,16 @@
 
 API desenvolvida lorem
 
+## Dependências necessárias para rodar o projeto ⛓️
+* JDK 11
+* Maven 4.0.0
+
+## Como executar 🤔
+Para construir o projeto com Maven, execute o comando abaixo:
+```shell
+mvn clean install
+```
+
 ## Tecnologias Utilizadas 🖥️
 * Java 11
 * Spring Framework (Web, Data)
